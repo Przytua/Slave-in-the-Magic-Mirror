@@ -1,0 +1,10 @@
+#!/usr/local/bin/pypy
+# EASY-INSTALL-ENTRY-SCRIPT: 'macholib==1.7','console_scripts','macho_find'
+__requires__ = 'macholib==1.7'
+import sys
+from pkg_resources import load_entry_point
+
+if __name__ == '__main__':
+    sys.exit(
+        load_entry_point('macholib==1.7', 'console_scripts', 'macho_find')()
+    )

@@ -309,27 +309,29 @@ def download_file(url, out):
     print
 
 def main():
-    print "Looking up key..."
-    key_resp = requests.get('https://ipsw.me/keys/AppleTV2,1/9A334v',
-            headers={'User-Agent': 'get_airtunesd.py'},
-            verify=False)
-    key_html = key_resp.content
-    key_soup = BeautifulSoup(key_html)
-    key_row = key_soup.find("td", text="RootFileSystem").parent
-    key_cell = key_row.find("td", "key")
-    key_text = key_cell.text
+    # print "Looking up key..."
+    # key_resp = requests.get('https://ipsw.me/keys/AppleTV2,1/9A334v',
+    #         headers={'User-Agent': 'get_airtunesd.py'},
+    #         verify=False)
+    # key_html = key_resp.content
+    # key_soup = BeautifulSoup(key_html)
+    # key_row = key_soup.find("td", text="RootFileSystem").parent
+    # key_cell = key_row.find("td", "key")
+    # key_text = key_cell.text
+    key_text = 'e04125691fea59da7bedc605667f459c78d243d1b4df4c6127d154dc84b3657902538aee'
     root_key = key_text.decode("hex")
     print "Done!", key_text
 
     ipsw_filename = "AppleTV2,1_4.4_9A334v_Restore.ipsw"
-    ipsw_url = "http://appldnld.apple.com/AppleTV/061-9621.20111012.Vgijx/AppleTV2,1_4.4_9A334v_Restore.ipsw"
-
+    # ipsw_url = "http://appldnld.apple.com/AppleTV/061-9621.20111012.Vgijx/AppleTV2,1_4.4_9A334v_Restore.ipsw"
+    #
     tmpdir = tempfile.mkdtemp()
     try:
-        print
-        print "Downloading %s..." % ipsw_filename
-        ipsw_path = os.path.join(tmpdir, ipsw_filename)
-        download_file(ipsw_url, ipsw_path)
+        # print
+        # print "Downloading %s..." % ipsw_filename
+        # ipsw_path = os.path.join(tmpdir, ipsw_filename)
+        ipsw_path = "/Users/lukaszprzytula/Downloads/AppleTV2,1_4.4_9A334v_Restore.ipsw"
+        # download_file(ipsw_url, ipsw_path)
         assert os.path.exists(ipsw_path)
         print "Done!", ipsw_path
 
