@@ -84,15 +84,15 @@ class FairPlaySAP(object):
 
         if stage == 0:
             assert len(data) == 16
-            fply_2[4] = data[4]
-            fply_2[13] = data[14]
-            return ''.join(fply_2)
+            # fply_2[4] = data[4]
+            # fply_2[13] = data[14]
+            # return ''.join(fply_2)
         elif stage == 1:
             assert len(data) == 164
-            fply_4[4] = data[4]
-            for i in range(0,20):
-                fply_4[12 + i] = data[144 + i]
-            return ''.join(fply_4)
+            # fply_4[4] = data[4]
+            # for i in range(0,20):
+            #     fply_4[12 + i] = data[144 + i]
+            # return ''.join(fply_4)
         else:
             assert False
 
@@ -118,8 +118,9 @@ class FairPlaySAP(object):
 
         #assert r == 0
 
+        print "data:    ", str(data).encode('hex')
+
         out_data = self.p.ld_word(p_out_data)
-        # print "out_data", hex(out_data)
         out_length = self.p.ld_word(p_out_length)
         # print "out_length", hex(out_length)
         out_stage = self.p.ld_word(p_inout_stage)
@@ -131,7 +132,9 @@ class FairPlaySAP(object):
         else:
             assert out_stage == 0
 
-        return self.p.copyout(out_data, out_length)
+        response = self.p.copyout(out_data, out_length)
+        print "out_data:", response.encode('hex')
+        return response
 
     def decrypt_key(self, param1):
         p_param1 = self.p.malloc(len(param1))

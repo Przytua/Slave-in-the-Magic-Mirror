@@ -323,7 +323,7 @@ class AirTunesRTP(object):
         sdp_audio = sdp.media["audio"]
         assert sdp_audio.proto == "RTP/AVP"
         audio_fmt = sdp.fmtp[sdp_audio.fmt]
-        assert audio_fmt["mode"] == "AAC-eld"
+        # assert audio_fmt["mode"] == "AAC-eld"
         audio_map = sdp.rtpmap[int(sdp_audio.fmt)]
         assert audio_map.encoding == "mpeg4-generic"
 
@@ -537,8 +537,11 @@ class AirTunesRTSPHandler(BaseHTTPRequestHandler):
 
         print "Decrypting AirTunes key..."
         st = time.clock()
-        key = AirTunesRTSPHandler.sap.decrypt_key(sdp.attrs["fpaeskey"].decode("base64"))
-        print "fpaeskey %s" % key
+        encoded_key = sdp.attrs["fpaeskey"]
+        decoded_key = encoded_key.decode("base64")
+        print "decoded fpaeskey:\n%s\n%s" % (decoded_key, decoded_key.encode("hex"))
+        key = AirTunesRTSPHandler.sap.decrypt_key(decoded_key)
+        print "airtunes AES key:\n%s\n%s" % (key, key.encode("hex"))
         et = time.clock()
         print "Done! Took %.2f seconds. AirTunes key: %s" % (et-st, key.encode("hex"))
 
@@ -791,7 +794,7 @@ class AirplayServer(object):
             properties={
                 'txtvers' : u'1',
                 'ch': u'2', #audio channels: stereo
-                'cn': u'0,1,2,3', #audio codecs
+                'cn': u'0,1,2,3', #u'0,1,2,3', #audio codecs
                 'da': u'true',
                 'et': u'0,3', #supported encryption types
                 'md': u'0,1,2', #supported metadata types
